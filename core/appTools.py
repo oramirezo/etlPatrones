@@ -1,4 +1,5 @@
 import datetime
+import shutil
 import smtplib
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
@@ -166,17 +167,23 @@ class appTools:
         msg['From'] = from_email
         msg['To'] = to_email_list
         msg.attach(MIMEText(email_content, 'plain'))
-        print(f'file type {type(file)}')
+        print(f'> File type: {type(file)}')
         if file != 'None':
             print(f'file a enviar{file}')
             attachmentPath = file
             try:
                 with open(attachmentPath, "rb") as attachment:
                     p = MIMEApplication(attachment.read())
-                    p.add_header('Content-Disposition', "attachment; filename= %s" % attachmentPath.split("/")[-1])
+                    p.add_header('Content-Disposition', "attachment; filename= %s" % attachmentPath.split('/')[-1])
                     msg.attach(p)
             except Exception as e:
                 print(str(e))
+            try:
+                file_path = os.path.dirname(file)
+                shutil.rmtree(file_path)
+                print(f'[ok] {file_path} removed')
+            except OSError as e:
+                print(f'[error] email_sender. Trying to remove {file}. {e}')
         try:
             with smtplib.SMTP(smtp_server, smtp_port, timeout=30.5) as server:
                 server.send_message(msg)

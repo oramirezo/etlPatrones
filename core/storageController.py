@@ -102,6 +102,19 @@ class Hive:
             e.args = e.args + ('[3.2]',)
             raise
 
+    def exec_count_query(self, query):
+        try:
+            self.cursor.execute(query)
+            result = int(self.cursor.fetchone()[0])
+            print('[ok] Count query executed successfully!')
+            return result
+        except Exception as e:
+            print(f'[error] exec_count_query. {e}')
+            if not e.args:
+                e.args = ('',)
+            e.args = e.args + ('[3.2]',)
+            raise
+
     def exec_query(self, query):
         try:
             self.cursor.execute(query)

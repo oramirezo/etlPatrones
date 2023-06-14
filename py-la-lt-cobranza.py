@@ -116,22 +116,3 @@ if __name__ == '__main__':
             print(f'[ok] File {path_txt_file} is deleted')
         except subprocess.CalledProcessError as e:
             print(f'[error] Removing TXT file {txt_file_name}. {e}')"""
-
-        """
-        try:
-            if os.path.isfile(csv_file_path):
-                print(f'> Removing temp CSV file {csv_file_path}...')
-                #shutil.rmtree(f'{PATH_LOCAL_TEMP_LT}/{file_name}')
-                command = f'rm -r {PATH_LOCAL_TEMP_LT}/{file_name}'
-                print(f'> exec command: {command}')
-                subprocess.run([command], shell=True, check=True)
-                print(f'[ok] Directory {PATH_LOCAL_TEMP_LT}/{file_name} is deleted')
-        except subprocess.CalledProcessError as e:
-            print(f'[error] dataframe_to_lt. Removing dir/file {csv_file_path}. {e}')
-        try:
-            command = f'hdfs dfs -rm /bdaimss/la/lt_aficobranza/prueba_tmp/{dirOrFile}'
-            print(f'> exec command: {command}')
-            subprocess.run([command], shell=True, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f'[error] dataframe_to_lt. Removing file in HDFS. {e}')
-        """
