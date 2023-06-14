@@ -139,13 +139,3 @@ class Hive:
             print(f'[error] select_query. {e}')
             result = None
         return result
-
-    def insert_to_te(self, query):
-        try:
-            self.cursor.executemany(query)
-            self.connection.commit()
-            print('[ok] Query executed successfully!')
-            return True
-        except Exception as e:
-            print(f'[error] exec_query. {e}')
-            return False
