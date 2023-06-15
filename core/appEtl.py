@@ -4419,7 +4419,7 @@ where TP_MOV = '10';
                                 f"'', '', '', '')"
         else:
             """
-            Validar si este metodo es correcto
+            Validar si estos valores son correcto
             reg_actualizados = N
             reg_borrados = N
             reg_descartados = N
