@@ -221,9 +221,11 @@ class pySparkTools:
                                                               error_description='',
                                                               process_name=process_name)
                         appTools().error_logger(ctrl_cif=ctrl_cfrs)
+                """
                 try:
                     if os.path.isfile(csv_file_path):
                         print(f'> Removing temp CSV file {csv_file_path}...')
+                        #shutil.rmtree(f'{PATH_LOCAL_TEMP_LT}/{file_name}')
                         command = f'rm -r {PATH_LOCAL_TEMP_LT}/{file_name}'
                         print(f'> exec command: {command}')
                         subprocess.run([command], shell=True, check=True)
@@ -236,6 +238,7 @@ class pySparkTools:
                     subprocess.run([command], shell=True, check=True)
                 except subprocess.CalledProcessError as e:
                     print(f'[error] dataframe_to_lt. Removing file in HDFS. {e}')
+                """
                 return f'{PATH_LOCAL_TEMP_LT}/{file_name}'
             else:
                 return None

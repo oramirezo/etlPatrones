@@ -371,34 +371,11 @@ class etl(threading.Thread):
         # print(V_RSUA_FechaRespaldo)
 
         # Paso 10: V_RSUA_RegistrosCargados
-        query = f"select count(1) from SUT_SIPA_00ENCABEZADO_LOTE where " \
-                f"fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')"
-        V_RSUA_RegistrosCargados = Hive().exec_count_query(query=query)
-
-        if V_RSUA_RegistrosCargados == 0:
-            V_RSUA_TipoEjecucion = 1
-        else:
-            #Borra todas las tablas de Hive
-            delete_queries = [
-                f"delete from SUT_SIPA_00ENCABEZADO_LOTE where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')",
-                f"delete from SUT_SIPA_01ENCABEZADO_ENT where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')",
-                f"delete from SUT_SIPA_02ENCABEZADO_PATRON where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd') and TIPO_ORIG = '1'",
-                f"delete from SUT_SIPA_03DETALLE_TRABAJADOR where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd') and TIPO_ORIG = '1'",
-                f"delete from SUT_SIPA_04MOVTO_INCIDENCIA where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd') and TIPO_ORIG = '1'",
-                f"delete from SUT_SIPA_05SUMARIO_PATRON where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd') and TIPO_ORIG = '1'",
-                f"delete  from SUT_SIPA_06VALIDACION where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd') and TIPO_ORIG = '1'",
-                f"delete  from SUT_SIPA_07TRANSAC_VENT_SUA where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')",
-                f"delete  from SUT_SIPA_09SUMARIO_TOT where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')",
-                f"delete  from SUT_SIPA_10SUM_LOTE_PAGOS_ER where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')",
-                f"delete  from SUT_SIPA_11SUM_LOTE_NOT where fec_transferencia = TO_DATE('{V_RSUA_FechaCarga}', 'yyyy-mm-dd')"]
-            for q in delete_queries:
-                try:
-                    Hive().exec_query(query=q)
-                except Exception as e:
-                    print(e)
-            V_RSUA_TipoEjecucion = 3
+        # V_RSUA_RegistrosCargados = 'select count(1) from SUT_SIPA_00ENCABEZADO_LOTE where fec_transferencia = TO_DATE("V_RSUA_FechaCarga", "dd/mm/yyyy")')
+        V_RSUA_RegistrosCargados = 0
 
         # Paso 11, 12, 13, 14:
+        V_RSUA_TipoEjecucion = 1
         V_RSUA_NombreProceso = 20
         V_RSUA_PeriodoEjecucion = 1
 
@@ -4169,7 +4146,7 @@ where TP_MOV = '10';
                 # to_email_list = 'susana.apaseo@imss.gob.mx, brenda.corona@imss.gob.mx, guillermo.acosta@imss.gob.mx'
 
                 # Adjuntar archivo
-                if rows != 0:
+                if rows !=0:
                  print('correo paso 23')
                  email_content = f'Buen día, Se proceso el archivo {V_RSUA_NombreArchivoSalida}, ' \
                                 'pero no cuadró la revision de cifras en cuanto a totales de registros, favor de validar. ' \
@@ -4400,37 +4377,21 @@ where TP_MOV = '10';
         20 futuro6 Null
         21 futuro7 Null
         """
-
         SYS_DATE = dt_now.strftime('%Y-%m-%d %H:%M:%S.%f')
         V_RSUA_NombreProceso = '20'
-        cve_carga = V_RSUA_TipoEjecucion
+
+        """
+        SELECT count(1)  from SUT_SIPA_00ENCABEZADO_LOTE
+        where fec_transferencia = TO_DATE('#V_RSUA_FechaCarga','dd/mm/yyyy')
+        """
+
         table_name = 'te_aficobranza.d_bitacora_dmart_dstd'
-        if cve_carga <= 1:
-            """
-            reg_actualizados = 0
-            reg_borrados = 0
-            reg_descartados = 0
-            """
-            insert_data_query = f"insert into {table_name} values ('{V_RSUA_FechaCarga}', " \
-                                f"'{SYS_DATE}', {V_RSUA_NombreProceso}, '{cve_carga}', " \
-                                f"'{V_RSUA_NombreArchivoSalida}', '{TOTAL_DE_REGISTROS}', " \
-                                f"'{TOTAL_DE_REGISTROS}', '0', '0', " \
-                                f"'0', '1', '1', '{V_RSUA_TipoEjecucion}', '', '', '', '', " \
-                                f"'', '', '', '')"
-        else:
-            """
-            Validar si este metodo es correcto
-            reg_actualizados = N
-            reg_borrados = N
-            reg_descartados = N
-            """
-            insert_data_query = f"insert into {table_name} values ('{V_RSUA_FechaCarga}', " \
-                                f"'{SYS_DATE}', {V_RSUA_NombreProceso}, '{cve_carga}', " \
-                                f"'{V_RSUA_NombreArchivoSalida}', '{TOTAL_DE_REGISTROS}', " \
-                                f"'{TOTAL_DE_REGISTROS}', '{TOTAL_DE_REGISTROS}', " \
-                                f"'{TOTAL_DE_REGISTROS}', " \
-                                f"'{TOTAL_DE_REGISTROS}', '1', '1', '{V_RSUA_TipoEjecucion}', " \
-                                f"'', '', '', '', '', '', '', '')"
+        insert_data_query = f"insert into {table_name} values ('{V_RSUA_FechaCarga}', " \
+                            f"'{SYS_DATE}', {V_RSUA_NombreProceso}, '{V_RSUA_TipoEjecucion}', " \
+                            f"'{V_RSUA_NombreArchivoSalida}', '{V_RSUA_RegistrosCargados}', " \
+                            f"'{V_RSUA_RegistrosCargados}', '0', '0', " \
+                            f"'0', '1', '1', '{V_RSUA_TipoEjecucion}', '', '', '', '', " \
+                            f"'', '', '', '')"
         try:
             print(f'> Query to Hive: {insert_data_query}')
             status_query_hive = Hive().exec_query(insert_data_query)
