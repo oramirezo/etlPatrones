@@ -35,13 +35,13 @@ if __name__ == '__main__':
     # Paso 0: ORACLE_AFICOBRANZA -> Pass
 
     # Paso 1: Proc. Lee archivos planos
-    C1_PROYECTO_v = 'RSUA'
+    C1_PROYECTO_v = 'PATRONES'
     C3_ESTATUS_v = '0'
     C2_NOMBRE_ARCHIVO_LIST = []
     try:
         local_path_content = os.listdir(PATH_LOCAL_TEMP_LA)
         for dirOrFile in local_path_content:
-            if dirOrFile.endswith(('.csv', '.CSV')):
+            if dirOrFile.endswith(('.txt', '.txt')):
                 C2_NOMBRE_ARCHIVO_LIST.append(dirOrFile)
     except Exception as e:
         print(f'[error] File .csv validation. {e}')

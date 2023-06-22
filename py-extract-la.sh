@@ -1,6 +1,6 @@
-HDFS_PATH="/bdaimss/la/la_aficobranza/e_carga_rsua"
-LA_PATH="/data/users/oscar_ramirez/etlAfiliacion/la"
-LT_PATH="/data/users/oscar_ramirez/etlAfiliacion/lt"
+HDFS_PATH="/bdaimss/la/la_aficobranza/ssregp"
+LA_PATH="/data/users/oscar_ramirez/aficobranza/ssregp/la"
+LT_PATH="/data/users/oscar_ramirez/aficobranza/ssregp/lt"
 
 #LA_PATH="C:/Users/hrodriguez/Documents/imss/testing"
 #LT_PATH="C:/Users/hrodriguez/PycharmProjects/etlAfiliacion/la"
@@ -27,14 +27,14 @@ else
     echo "[error] Creating ${LA_PATH}."
 fi
 
-if mkdir ${LA_PATH}/sut_cifras_sua; then
-  echo "[ok] ${LA_PATH} created successfully!."
-else
-    echo "[error] Creating ${LA_PATH}/sut_cifras_sua."
-fi
+#if mkdir ${LA_PATH}/sut_cifras_sua; then
+#  echo "[ok] ${LA_PATH} created successfully!."
+#else
+#    echo "[error] Creating ${LA_PATH}/sut_cifras_sua."
+#fi
 
 echo "> Copying HDFS LA -> Local LA"
-if hdfs dfs -get ${HDFS_PATH}/*.csv ${LA_PATH}; then
+if hdfs dfs -get ${HDFS_PATH}/*.txt ${LA_PATH}; then
   echo "[ok] HDFS LA -> Local LA successfully!"
 else
   echo "[error] Transferring HDFS LA -> Local LA"

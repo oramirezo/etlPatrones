@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/etlRsua.iml" filepath="$PROJECT_DIR$/.idea/etlRsua.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/etlPatrones.iml" filepath="$PROJECT_DIR$/.idea/etlPatrones.iml" />
     </modules>
   </component>
 </project>
