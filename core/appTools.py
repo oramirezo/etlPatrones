@@ -81,7 +81,7 @@ class appTools:
                 des_proceso = nom_proceso
 
                 ctrl_cfrs = {
-                    'id_proceso': 1,
+                    'id_proceso': 3,
                     'nom_grupo': self.id_generator(),
                     'nom_tabla': table_name,
                     'nom_fuente': 'cobranza',
