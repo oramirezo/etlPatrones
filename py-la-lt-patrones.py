@@ -44,20 +44,20 @@ if __name__ == '__main__':
             if dirOrFile.endswith(('.txt', '.txt')):
                 C2_NOMBRE_ARCHIVO_LIST.append(dirOrFile)
     except Exception as e:
-        print(f'[error] File .csv validation. {e}')
+        print(f'[error] File .txt validation. {e}')
         C2_NOMBRE_ARCHIVO_LIST = []
     if not C2_NOMBRE_ARCHIVO_LIST:
         e = f'Any compatible file: {PATH_LOCAL_TEMP_LA}'
         print(f'[error] {e}')
         error_id = '3.2'
         error_description = e
-        ctrl_cfrs = appTools().cifras_control(db_table_name='lt_aficobranza.e_carga_rsua',
-                                              start_datetime=start_datetime,
-                                              start_datetime_proc=start_datetime_proc,
-                                              end_datetime_proc=appTools().get_datime_now(),
-                                              error_id=error_id,
-                                              error_description=error_description,
-                                              process_name=process_name)
+        ctrl_cfrs = appTools().cifras_controlError(start_datetime=start_datetime,
+                                                   start_datetime_proc=start_datetime_proc,
+                                                   end_datetime_proc=appTools().get_datime_now(),
+                                                   error_id=error_id,
+                                                   error_description=error_description,
+                                                   process_name=process_name,
+                                                   des_proceso='lectura de archivos de carga', fuente='cobranza')
         appTools().error_logger(ctrl_cif=ctrl_cfrs)
         sys.exit()
     else:
@@ -93,13 +93,13 @@ if __name__ == '__main__':
                 process_executing = appTools().count_process_executing(threads_processing=etl_processing)
 
         if runtime_error:
-            ctrl_cfrs = appTools().cifras_control(db_table_name='lt_aficobranza.e_carga_rsua',
-                                                  start_datetime=start_datetime,
-                                                  start_datetime_proc=start_datetime_proc,
-                                                  end_datetime_proc=appTools().get_datime_now(),
-                                                  error_id='1.0',
-                                                  error_description=err,
-                                                  process_name=process_name)
+            ctrl_cfrs = appTools().cifras_controlError(start_datetime=start_datetime,
+                                                       start_datetime_proc=start_datetime_proc,
+                                                       end_datetime_proc=appTools().get_datime_now(),
+                                                       error_id='1.0',
+                                                       error_description=err,
+                                                       process_name=process_name,
+                                                       des_proceso='Error threads', fuente='cobranza')
             appTools().error_logger(ctrl_cif=ctrl_cfrs)
             sys.exit()
         else:

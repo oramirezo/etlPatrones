@@ -277,13 +277,13 @@ class etl(threading.Thread):
             print(f'[error] {e}')
             error_id = '2.2'
             error_description = e
-            ctrl_cfrs = appTools().cifras_control(db_table_name='lt_aficobranza.e_carga_rsua',
-                                                  start_datetime=self.start_datetime,
-                                                  start_datetime_proc=self.start_datetime_proc,
-                                                  end_datetime_proc=appTools().get_datime_now(),
-                                                  error_id=error_id,
-                                                  error_description=error_description,
-                                                  process_name=process_name)
+            ctrl_cfrs = appTools().cifras_controlError(start_datetime=self.start_datetime,
+                                                       start_datetime_proc=self.start_datetime_proc,
+                                                       end_datetime_proc=appTools().get_datime_now(),
+                                                       error_id=error_id,
+                                                       error_description=error_description,
+                                                       process_name=process_name,
+                                                       des_proceso='Inico de sparkSession', fuente='cobranza')
             appTools().error_logger(ctrl_cif=ctrl_cfrs)
             sys.exit()
 
@@ -357,16 +357,17 @@ class etl(threading.Thread):
 
 
         else:
-            e = f'Failure on dataframe creation: DM_ADMIN_E_CARGA_RSUA'
+            e = f'Failure on dataframe creation: DM_ADMIN_E_CARGA_PATRONES'
             print(f'[error] {e}')
             error_id = '2.2'
             error_description = e
-            ctrl_cfrs = appTools().cifras_control(db_table_name='lt_aficobranza.e_carga_rsua',
-                                                  start_datetime=self.start_datetime,
-                                                  start_datetime_proc=self.start_datetime_proc,
-                                                  end_datetime_proc=appTools().get_datime_now(),
-                                                  error_id=error_id,
-                                                  error_description=error_description,
-                                                  process_name=process_name)
+            ctrl_cfrs = appTools().cifras_controlError(start_datetime=self.start_datetime,
+                                                       start_datetime_proc=self.start_datetime_proc,
+                                                       end_datetime_proc=appTools().get_datime_now(),
+                                                       error_id=error_id,
+                                                       error_description=error_description,
+                                                       process_name=process_name,
+                                                       des_proceso='paso de datos de txt a dataframe',
+                                                       fuente='cobranza')
             appTools().error_logger(ctrl_cif=ctrl_cfrs)
             sys.exit()
