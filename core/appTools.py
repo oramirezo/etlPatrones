@@ -123,7 +123,7 @@ class appTools:
 
 
                 ctrl_cfrs = {
-                    'id_proceso': 1,
+                    'id_proceso': 3,
                     'nom_grupo': self.id_generator(),
                     'nom_tabla': process_name,
                     'nom_fuente': fuente,
